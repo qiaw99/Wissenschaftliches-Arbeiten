@@ -1,1 +1,2 @@
 # Wissenschaftliches-Arbeiten
+Das Proseminar "Theoretische Informatik" vertieft Inhalte aus den Grundvorlesungen der Arbeitsgruppe Theoretische Informatik. Im Wintersemester werden weiterführende Themen aus der Berechenbarkeits- und Sprachentheorie behandelt (im Anschluss an "Grundlagen der theoretischen Informatik"); im Sommersemester geht es um Themen aus der Algorithmik (im Anschluss an "Algorithmen, Datenstrukturen, und Datenabstraktion").
