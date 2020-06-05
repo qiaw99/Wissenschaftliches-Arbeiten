@@ -233,6 +233,7 @@ $\Rightarrow Laufzeit: \mathcal{O}(n^2)$
 
 Hier wird noch eine andere Methode zur Multiplikation vorgestellt, die dieses Prinzip Divide and Conquer anwendet und auch hilfreich ist, mit der Idee davon den Karatsuba Algorithmus besser einsteigen zu können. \\
 
+\subsection{Splitmultiply}
 Angenommen, dass wir zwei Zahlen $p$ und $q$ haben mit Länge $n$. Wir definieren $m = \lfloor \frac{n}{2} \rfloor$. Dann können wir p und q so darstellen: 
 \begin{align*}
 p = 10^{m} \cdot a + b\\
@@ -338,7 +339,7 @@ procedure karatsuba(num1, num2)
     
     return (u * 10 ^ (m2 * 2)) + ((u + w - v) * 10 ^ m2) + w
 \end{lstlisting}
-Zuerst wird es geprüft, ob mindestens eine von beiden Zahlen größer als 10 ist, also ob die Multiplikatoren nur eine Ziffer sind. Wenn ja, ist es doch genug effizient, die beiden Zahlen direkt miteinander zu multiplizieren. Darüber hinaus gilt es als die Abbruchbedingung von der Rekursion. Ansonsten wenden wir den Algorithmus an. Auf der 175. und 176. Zeile wird die maximale Länge der Zahlen berechnet und abgerundet. Danach werden die vorgegebenen Zahlen in die Form $p = 10^{m} \cdot a + b$ umgeformt, also die Ziffernfolgen in der Mitte aufgeteilt. Auf der Zeilen 181 - 183 werden 3 Karatsuba-Funktion rekursiv aufgerufen, die genau 3 Multiplikationen mit Länge $\lfloor \frac{n}{2} \rfloor$ entsprechen. Sobald u, v, w die kleinstmöglichen Einheiten haben, werden sie in die endgültigen Gleichung zurückgegeben und die Zahl mit einer Basis aufgefüllt(im obigen Pseudocode zur Basis 10). Am Ende kriegt man dann das Endergebnis.
+Zuerst wird es geprüft, ob mindestens eine von beiden Zahlen größer als 10 ist, also ob die Multiplikatoren nur eine Ziffer sind. Wenn ja, ist es doch genug effizient, die beiden Zahlen direkt miteinander zu multiplizieren. Darüber hinaus gilt es als die Abbruchbedingung von der Rekursion. Ansonsten wenden wir den Algorithmus an. Auf der 177. und 177. Zeile wird die maximale Länge der Zahlen berechnet und abgerundet. Danach werden die vorgegebenen Zahlen in die Form $p = 10^{m} \cdot a + b$ umgeformt, also die Ziffernfolgen in der Mitte aufgeteilt. Auf der Zeilen 182 - 184 werden 3 Karatsuba-Funktion rekursiv aufgerufen, die genau 3 Multiplikationen mit Länge $\lfloor \frac{n}{2} \rfloor$ entsprechen. Sobald u, v, w die kleinstmöglichen Einheiten haben, werden sie in die endgültigen Gleichung zurückgegeben und die Zahl mit einer Basis aufgefüllt(im obigen Pseudocode zur Basis 10). Am Ende kriegt man dann das Endergebnis.
 
 \begin{observation}
 Außer der Multiplikationen sind noch mehrere Additionen $\mathcal{O}(n)$ benötigt.
