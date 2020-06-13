@@ -38,8 +38,8 @@
 
 \lstset{
  columns=fixed,       
- numbers=none,                                        % 在左侧显示行号
- %numberstyle=\tiny\color{gray},                       % 设定行号格式
+ numbers=left,                                        % 在左侧显示行号
+ numberstyle=\tiny\color{gray},                       % 设定行号格式
  frame=none,                                          % 不显示背景边框
  backgroundcolor=\color[RGB]{245,245,244},            % 设定背景颜色
  keywordstyle=\color[RGB]{40,40,255},                 % 设定关键字颜色
@@ -156,18 +156,18 @@
 \begin{document}
 
 \maketitle
-\linenumbers
+%\linenumbers
 \thispagestyle{fancy}
 \section{Einführung}
-Heutzutage kennen fast alle Multiplikation, sofern man die Grundschule besucht hat. Die Multiplikation von zwei Zahlen ist eine der gebräuchlichsten Operationen für einen Computer, aber mit zunehmender Größe von zwei Multiplikatoren nimmt die Komplexität des Algorithmus zur Berechnung ihres Produkts dramatisch zu. Die Multiplikation ist wirklich brauchbar und relevant mit unserem Leben. z.B. die Verschlüsselung von Nachrichten, Kryptographie, polynomielle Multiplikation oder Lösung von geometrischen Problemen. Jedoch ist die Methode zum Multiplizieren, die wir in der Grundschule gelernt haben, nicht so effizient, als wir uns vorstellen bzw erwarten, was im Hauptteil nochmal erklärt wird. Um diese Beschränkung zu verhindern, wird Karatsuba Algorithmus eingeführt, der uns ermöglicht, die Effizienz der Multiplikation bis zu einem gewissen Grad zu verbessern.
+Heutzutage kennen fast alle Multiplikation, sofern man die Grundschule besucht hat. Die Multiplikation von zwei Zahlen ist eine der gebräuchlichsten Operationen für einen Computer, aber mit zunehmender Größe von zwei Multiplikatoren nimmt die Komplexität des Algorithmus zur Berechnung ihres Produkts dramatisch zu. Die Multiplikation ist wirklich brauchbar und relevant mit unserem Leben. z.B. die Verschlüsselung von Nachrichten, Kryptographie, polynomielle Multiplikation oder Lösung von geometrischen Problemen. Jedoch ist die Methode zum Multiplizieren, die wir in der Grundschule gelernt haben, nicht so effizient, wie wir uns vorstellen bzw erwarten, was im Hauptteil nochmal erklärt wird. Um diese Beschränkung zu umgehen, wird  der Karatsuba Algorithmus eingeführt, der uns ermöglicht, die Effizienz der Multiplikation bis zu einem gewissen Grad zu verbessern.
 
 
 %\begin{definition}
 %Eine ganz wichtige Definition.
 %\end{definition}
 
-\section{Hauptteil 1}
-\begin{definition}Grundoperation ist die Operation, die der Prozessor direkt unterstützt, damit wir mit Hilfe von der Anzahl von Grundoperationen auf Umwegen den Zeitaufwand eines Algorithmus besser darstellen können.
+\section{Grundlegende Definitionen und Ergebnisse}
+\begin{definition}Eine Grundoperation ist eine Operation, die der Prozessor direkt unterstützt, damit wir mit Hilfe von der Anzahl von Grundoperationen auf Umwegen den Zeitaufwand eines Algorithmus besser darstellen können.
 
 \begin{observation}
 Die Addition und Multiplikation kostet nur konstante Zeit, also $\mathcal{O}(1)$.
@@ -175,32 +175,34 @@ Die Addition und Multiplikation kostet nur konstante Zeit, also $\mathcal{O}(1)$
 
 \end{definition}
 \subsection{Addition zweier Zahlen mit Länge n}
-Wie viele Grundoperationen muss man mindestens durchführen, damit man zwei Zahlen mit Länge n miteinander addieren kann? Schauen wir zuerst ein Beispiel dafür an: \\
+Wie viele Grundoperationen muss man mindestens durchführen, damit man zwei Zahlen mit Länge \(n\) miteinander addieren kann? Schauen wir zuerst ein Beispiel dafür an: \\
 \centerline{\includegraphics[scale=0.5]{addition.png}}\\
-Um die beiden Zahlen zu addieren, sollen wir als erster Schritt sie untereinander schreiben und ziffernweise von rechts nach links addieren(möglicherweise noch Überträge, schreiben wir dann Übertrag eine Stelle davor). 
+Um die beiden Zahlen zu addieren, sollen wir sie im ersten Schritt untereinander schreiben und ziffernweise von rechts nach links addieren(möglicherweise noch Überträge, schreiben wir dann Übertrag eine Stelle davor). 
 
 \begin{theorem}
 Laufzeit von der Addition, die n Grundoperationen braucht, ist $\mathcal{O}(n)$.
 \end{theorem}
 \begin{proof}
-Um die Analyse zu vereinfachen, nehmen wir an: Wir haben zwei Zahlen mit Länge n. (Eventuell ist die Länge einer Zahl kleiner als n. Aber wir können einfach 0’s vor der Zahl hinzufügen, damit die Länge auch n ist. Das gilt auch für spätere Analysen). 
-Da wir alle Ziffer von rechts nach links einmal durchgehen und miteinander addieren sollen, entspricht die Länge n genau dann n ziffernweise Additionen.  Obwohl es im Prinzip maximal $(n + 1)$ Spalten geben kann, bekommt man trotzdem die linkeste Ziffer ohne weitere Berechnung. Daraus folgt, dass die Laufzeit von Addition $\mathcal{O}(n)$ ist.
+Um die Analyse zu vereinfachen, nehmen wir an: Wir haben zwei Zahlen mit Länge \(n\). (Eventuell ist die Länge einer Zahl kleiner als \(n\). Aber wir können einfach 0’s vor der Zahl hinzufügen, damit die Länge auch \(n\)ist. Das gilt auch für spätere Analysen). 
+Da wir alle Ziffer von rechts nach links einmal durchgehen und miteinander addieren sollen, entspricht die Länge \(n\) genau dann \(n\) ziffernweisen Additionen. Obwohl es im Prinzip maximal $(n + 1)$ Spalten geben kann, bekommt man trotzdem die linkeste Ziffer ohne weitere Berechnung. Daraus folgt, dass die Laufzeit von Addition $\mathcal{O}(n)$ ist.
 \end{proof}
 
 
 \subsection{Multiplikation einer Zahl mit einer Ziffer}
-Hier kann man schon darauf die Schulmethode zur Multiplikation anwenden. Wir führen ziffernweise Multiplikationen von rechts nach links durch und schreiben die Zwischenergebnisse schräg untereinander hin. Anschließend addieren wir alle Ziffer, die in einer selben Spalte stehen, was uns das Teilprodukt liefert. Schauen wir mal folgendes Beispiel an:\\
+Hier kann man die Schulmethode zur Multiplikation anwenden. Wir führen ziffernweise Multiplikationen von rechts nach links durch und schreiben die Zwischenergebnisse schräg untereinander hin. Anschließend addieren wir alle Ziffer, die in einer selben Spalte stehen, was uns das Teilprodukt liefert. Schauen wir mal folgendes Beispiel an:\\
 \centerline{\includegraphics[scale=0.5]{multiplication with digit.png}}\\
 \textbf{Zwischenschritte:} \\
-- Berechne alle Teilprodukte von ziffernweise jeweiligen Multiplikationen. \\
-- Schreiben Teilprodukte von rechts nach links schräg auf.\\
-- Addieren alle Ziffer in der selben Spalte. 
+\begin{itemize}
+\item Berechne alle Teilprodukte von ziffernweise jeweiligen Multiplikationen. \\
+\item Schreiben Teilprodukte von rechts nach links schräg auf.\\
+\item Addieren alle Ziffer in der selben Spalte. 
+\end{itemize}
 
 \begin{theorem}
 Die Multiplikation einer Zahl mit einer Ziffer benötigt 2n Grundoperationen. Die Laufzeit liegt also in $\mathcal{O}(n)$
 \end{theorem}
 \begin{proof}
-Angenommen: $a$ ist eine Zahl mit Länge $n$, $b$ ist eine Ziffer. Jede Ziffer von $a$ soll jeweils einmal mit $b$ multiplizieren, was dann n Multiplikationen fordert. Außerdem sollen alle Teilprodukte addiert werden, was damit n Additionen entspricht. Auch wie ich zuvor erwähnt habe, kann es hier auch $(n + 1)$ Spalte geben, aber jetzt ist bisschen anders. Denn die rechteste Ziffer kann man direkt hinschreiben. Also tatsächlich werden n Additionen benötigt.  D.h. Insgesamt soll man $2n$ Grundoperationen durchführen. Also Laufzeit $\mathcal{O}(n)$.
+Angenommen: $a$ ist eine Zahl mit Länge $n$, $b$ ist eine Ziffer. Jede Ziffer von $a$ soll jeweils einmal mit $b$ multiplizieren, was dann \(n\) Multiplikationen fordert. Außerdem sollen alle Teilprodukte addiert werden, was damit \(n\) Additionen entspricht. Auch wie zuvor erwähnt, kann es hier auch $(n + 1)$ Spalten geben, aber die Argumentation hier ist etwas anders. Denn die rechteste Ziffer kann man direkt hinschreiben. Also werden tatsächlich \(n\) Additionen benötigt.  D.h. Insgesamt werden $2n$ Grundoperationen durchgeführt. Als Laufzeit ergibt sich $\mathcal{O}(n)$.
 \end{proof}
 
 %\begin{corollary}
@@ -208,20 +210,21 @@ Angenommen: $a$ ist eine Zahl mit Länge $n$, $b$ ist eine Ziffer. Jede Ziffer v
 %\end{corollary}
 
 \subsection{Grundschulmethode zur Multiplikation}
-\textbf{Angenommen}: Wir haben zwei Zahlen a und b, die beide aus n Ziffern bestehen. Beim Multiplizieren ist es ebenso wichtig, dass man ordentlich arbeitet und genügend Platz lässt. Es werden die Produkte nebeneinander geschrieben(a multipliziert mit jeder Ziffer von b). Beginnt mit der niedrigsten Stelle der rechten Zahl, dann kann man es anschließend leicht addieren. Ein Beispiel ist als folgendes gegeben: \\
+\textbf{Angenommen}: Wir haben zwei Zahlen \(a\) und \(b\), die beide aus \(n\) Ziffern bestehen. Beim Multiplizieren ist es ebenso wichtig, dass man ordentlich arbeitet und genügend Platz lässt. Es werden die Produkte nebeneinander geschrieben(a multipliziert mit jeder Ziffer von b). Beginnt mit der niedrigsten Stelle der rechten Zahl, dann kann man es anschließend leicht addieren. Ein Beispiel ist als folgendes gegeben: \\
 \centerline{\includegraphics[scale=0.5]{example_of_school_multiplcation.png}}
 
 \textbf{Zwischenschritte:}\\
-- 1234 multipliziert mit jeder Ziffer von 5678. Es werden die Teilprodukte nebeneinander geschrieben.\\
-- Beginnt mit der niedrigsten Stelle und wiederum von rechts nach links durchgehen und miteinander addieren.\\ 
-
+\begin{itemize}
+\item 1234 multipliziert mit jeder Ziffer von 5678. Es werden die Teilprodukte nebeneinander geschrieben.
+\item Beginnt mit der niedrigsten Stelle und wiederum von rechts nach links durchgehen und miteinander addieren. 
+\end{itemize}
 \begin{theorem}
 Laufzeit von der Grunschulmethode ist $\mathcal{O}(n^2)$.
 \end{theorem}
 \begin{proof}
 Jetzt konzentrieren wir uns auf die Anzahl der Grundoperationen. 
 Wie viele Grundoperationen sind das? Betrachten wir zuerst die Multiplikation:
-Aus dem Beispiel sehen wir uns schon, dass 1234 jeweils mit jeder Ziffer von 5678 multipliziert, was genau die Multiplikation ``Zahl mal Ziffer`` ist,  sodass man alle Teilprodukte errechnen kann. Entsprechend brauchen wir n Multiplikationen.  Also werden dann $2n^2$ Grundoperationen zur Multiplikation durchgeführt. Anschließend sollten wir alle Teilprodukte spaltenweise miteinander addieren. Zur Vereinfachung der Analyse fügen wir einfach 0’s hinzu, wo es in der Spalte mindestens eine Zahl gibt.  Das Produkt von einer n stelligen Zahl mit einer Ziffer kann maximal n + 1 Ziffern haben wegen des Übertrags. Da alle Teilprodukte schräg untereinander stehen und es insgesamt n Teilprodukte gibt, sollten höchstens$(n+ 1 + n - 1) = 2n$ spaltenweise Additionen durchgeführt werden. Hier würde ich noch kurz erklären. $(n + 1)$ bedeutet, dass wir höchstens $(n+ 1)$ Ziffern haben. Außerdem bedeutet $(n - 1)$, dass es $(n - 1)$ Stellen zwischen dem linkesten Teilprodukt und dem rechtesten Teilprodukt gibt. Darüber hinaus enthält eine Spalte n Ziffern. D.h. eine spaltenweise Addition benötigt $(n - 1)$ ziffernweise Additionen . Nach der obigen Untersuchung über die Addition folgt es: \\
+Aus dem Beispiel sehen wir uns schon, dass 1234 jeweils mit jeder Ziffer von 5678 multipliziert, was genau die Multiplikation ``Zahl mal Ziffer`` ist,  sodass man alle Teilprodukte errechnen kann. Entsprechend brauchen wir \(n\) Multiplikationen.  Also werden dann $2n^2$ Grundoperationen zur Multiplikation durchgeführt. Anschließend werden wir alle Teilprodukte spaltenweise miteinander addieren. Zur Vereinfachung der Analyse fügen wir einfach 0'en hinzu, wo es in der Spalte mindestens eine Zahl gibt.  Das Produkt von einer \(n\) stelligen Zahl mit einer Ziffer kann maximal \(n + 1\) Ziffern haben wegen des Übertrags. Da alle Teilprodukte schräg untereinander stehen und es insgesamt n Teilprodukte gibt, werden höchstens$(n + 1 + n - 1) = 2n$ spaltenweise Additionen durchgeführt. Hier würde ich noch kurz erklären. $(n + 1)$ bedeutet, dass wir höchstens $(n+ 1)$ Ziffern haben. Außerdem bedeutet $(n - 1)$, dass es $(n - 1)$ Stellen zwischen dem linkesten Teilprodukt und dem rechtesten Teilprodukt gibt. Darüber hinaus enthält eine Spalte n Ziffern. D.h. eine spaltenweise Addition benötigt $(n - 1)$ ziffernweise Additionen . Nach der obigen Untersuchung über die Addition folgt es: \\
 $\rightarrow (n - 1) \cdot 2n = 2n^2 - 2n$ Grundoperationen \\
 Also insgesamt: $4n^2 - 2n$ Grundoperationen.\\
 $\Rightarrow Laufzeit: \mathcal{O}(n^2)$
@@ -231,17 +234,17 @@ $\Rightarrow Laufzeit: \mathcal{O}(n^2)$
 \textbf{Teile und Herrsche} ist ein Algorithmenentwurfsparagdima, das auf einer mehrfach verzweigten Rekursion basiert. Der "Teile und Herrsche"\-Algorithmus arbeitet, in dem er ein Problem rekursiv in zwei oder mehrere Unterprobleme derselber oder verwandter Art zerlegt, bis diese einfach genug werden, um direkt gelöst werden zu können. 
 \end{definition}
 
-Hier wird noch eine andere Methode zur Multiplikation vorgestellt, die dieses Prinzip Divide and Conquer anwendet und auch hilfreich ist, mit der Idee davon den Karatsuba Algorithmus besser einsteigen zu können. \\
+Hier wird noch eine andere Methode zur Multiplikation vorgestellt, die dieses Prinzip Divide and Conquer anwendet und auch hilfreich ist, mit der Idee davon den Karatsuba Algorithmus besser verstehen zu können. \\
 
-\subsection{Splitmultiply}
+\subsection{Divide and Conquer}
 Angenommen, dass wir zwei Zahlen $p$ und $q$ haben mit Länge $n$. Wir definieren $m = \lfloor \frac{n}{2} \rfloor$. Dann können wir p und q so darstellen: 
 \begin{align*}
 p = 10^{m} \cdot a + b\\
 q = 10^{m} \cdot c + d\\
 (wobei \;a, \;b, \;c, \;d \in \mathbb{Z})
 \end{align*}
- Der Grund dafür, warum wir so die Zahlen quasi in der Mittel aufteilen, ist, dass wir das Prinzip “Divide and Conquer” nutzen wollen. Die typische Lösung dafür ist dann, dass wir dieses Problem in 2 kleineren aber eher gleichmäßigen Unterprobleme zerlegen.
-So kann das Produkt von p und q durch Distributivitätsgesetz entfaltet.
+Der Grund dafür, warum wir so die Zahlen quasi in der Mittel aufteilen, ist, dass wir das Prinzip “Divide and Conquer” nutzen wollen. Die typische Lösung dafür ist dann, dass wir dieses Problem in 2 kleineren aber eher gleichmäßigen Unterprobleme zerlegen.
+So kann das Produkt von \(p\) und \(q\) durch Distributivitätsgesetz entfaltet.
 \begin{align}
 p \cdot q &= (10^{m} \cdot a + b) \cdot (10^{m} \cdot c + d)\\
 &= a \cdot c \cdot 10^{2m} + (a \cdot d + b \cdot c) \cdot 10^{m} + b \cdot d\\
@@ -253,38 +256,38 @@ Aus der Formel (3) kann man leicht erkennen, dass es dringend gefordert ist, 4 u
 \end{observation}
 
 \begin{theorem}
-Laufzeit der Schulmethode ist $\mathcal{O}$($n^{2}$).
+Laufzeit des einfachen divide and conquer Ansatzes ist $\mathcal{O}$($n^{2}$).
 \end{theorem}
 
 \begin{proof}
 Von der Beobachtung 5 erfahren wir, dass wir dazu 4 Multiplikationen brauchen. Dann können wir die Rekursionsformel so formulieren: \\
-\quad		T(n) = 4 $\cdot$ T$(\lfloor \frac{n}{2}\rfloor)$ + $\mathcal{O}(n)$\\
+\quad		T($n$) = 4 $\cdot$ T$(\lfloor \frac{n}{2}\rfloor)$ + $\mathcal{O}(n)$\\
 \quad		T($\frac{n}{2}$) = 4 $\cdot$ T($\lfloor \frac{n}{4}\rfloor$) + $\mathcal{O}$($\frac{n}{2}$)\\
 \quad		...\\
 \quad		T(2) = 4 $\cdot$ T(1) + $\mathcal{O}(1)$ \quad (wobei T(1) = $\mathcal{O}$(1))\\
 Um die Rekursionsformel zu lösen, können wir einen Rekursionsbaum aufbauen: \\
 \includegraphics[scale=0.3]{baum.png} \cite{3}\\
-Die Tiefe des Baums ist gleich $log_{2}{n}- 1$.\\
-Auf der \textbf{ersten} Ebene: $4^{1}$ Rekursionen. Auf der \textbf{zweiten} Ebene: $4^{2}$ Rekursionen, usw. Das heißt, auf der \textbf{letzten} Ebene gibt es dann $4^{\log_2{n} - 1}$ Rekursionen.\\
-$\rightarrow \quad$ Laufzeit: $ \mathcal{O}(\frac{1}{4}\cdot \ 4^{\log_{2}{n}}) = \mathcal{O}(\frac{1}{4} \cdot \ n^{\log_{2}{4} }) = \mathcal{O} (n^{2})$\\
+Die Tiefe des Baums ist gleich $log_{2}{n}$.\\
+Auf der \textbf{ersten} Ebene: $4^{1}$ Rekursionen. Auf der \textbf{zweiten} Ebene: $4^{2}$ Rekursionen, usw. Das heißt, auf der \textbf{letzten} Ebene gibt es dann $4^{\log_2{n}}$ Rekursionen. Und die Laufzeit jeder Rekursion auf der letzten Ebene ist $T(1) \ bzw. \ \mathcal{O}(1)$.\\
+$\rightarrow \quad$ Laufzeit: $4^{\log_{2}{n}} \cdot \mathcal{O}(1) = $ $ \mathcal{O}(4^{\log_{2}{n}}) = \mathcal{O}(\ n^{\log_{2}{4} }) = \mathcal{O} (n^{2})$\\
 \end{proof}
 
-\section{Hauptteil 2}
-\textbf{Karatusba Algorithmus}, der von Anatoli Alexejewitsch Karazuba im Jahr 1962 veröffentlicht wurde, ist besonders geeignet für die Multiplikation zweier großer ganzer Zahlen. Dieser Algorithmus, der asymptotisch schneller als der quadratische "Grundschule"\- Algorithumus ist, reduziert die Multiplikation von zwei n-stelligen Zahlen auf höchsten $n^{\log_{2}{3}} \approx n^{1.585}$ einstellige Multiplikationen im Allgemein (und genau dann $n^{\log_{2}{3}}$, wenn n eine Potenz von 2 ist)(Beweis und Analyse siehe unten).\\
+\section{Karatsuba Algorithmus}
+Der \textbf{Karatusba Algorithmus}, der von Anatoli Alexejewitsch Karazuba im Jahr 1962 veröffentlicht wurde, ist besonders geeignet für die Multiplikation zweier großer ganzer Zahlen. Dieser Algorithmus, der asymptotisch schneller als der quadratische "Grundschule"\- Algorithumus ist, reduziert die Multiplikation von zwei \(n\)-stelligen Zahlen auf höchsten $n^{\log_{2}{3}} \approx n^{1.585}$ einstellige Multiplikationen im Allgemein (und genau dann $n^{\log_{2}{3}}$, wenn n eine Potenz von 2 ist)(Beweis und Analyse siehe unten).\\
 
-Die Kernidee besteht darin, dass vier Unterprobleme bei der Multiplikation auf drei reduziert werden können. Daher beschleunigt sich.
+Die Kernidee besteht darin, dass vier Unterprobleme bei der Multiplikation auf drei reduziert werden können. Daher beschleunigt sich die Berechnung.
 \\
 
 
 Im Allgemein gibt es folgende zwei Fälle zu betrachten: \\
-\textbf{Fall 1:} Multiplikation zweier einstelligen Zahlen(n = 1).\\
-\textbf{Fall 2:} Multiplikation zweier Zahlen mit Länge n, wobei n größer 1 ist.\\
+\textbf{Fall 1:} Multiplikation zweier einstelligen Zahlen(\(n\) = 1).\\
+\textbf{Fall 2:} Multiplikation zweier Zahlen mit Länge \(n\), wobei \(n\) größer 1 ist.\\
 \begin{observation}
 Im ersten Fall kann man sofort Ergebnis kriegen, weil man dafür genau nur eine Grundoperation braucht, die vom Prozessor direkt untertützt ist. 
 \end{observation}
 
 
-Angenommen, wir haben zwei Zahlen p und q mit Länge n. Wir definieren $m = \lfloor \frac{n}{2} \rfloor$. Dann können wir p und q so darstellen: 
+Angenommen, wir haben zwei Zahlen \(p\) und \(q\) mit Länge n. Wir definieren $m = \lfloor \frac{n}{2} \rfloor$. Dann können wir p und q so darstellen: 
 \begin{align*}
 p = 10^{m} \cdot a + b\\
 q = 10^{m} \cdot c + d\\
@@ -303,11 +306,11 @@ u &= a \cdot c\\
 v &= (b - a) \cdot (d - c)\\
 w &= b \cdot d
 \end{align*}
-Also wir können $p \cdot q$ als folgendes umschreiben: 
+Also wir können $p \cdot q$ wie folgt umschreiben: 
 \begin{align*}
 p \cdot q = u \cdot 10^{n} + (u + w - v) \cdot 10^{\frac{n}{2}} + w
 \end{align*}
-Daraus ist ersichtlich, dass wir dazu Mithilfe des Karatsuba Algorithmus nur 3 Multiplikationen mit Länge $\lfloor \frac{n}{2} \rfloor$ brauchen. Im Vergleich zur Grundschulmethode können wir dann eine Multiplikation einsparen.
+Daraus ist ersichtlich, dass wir dazu mithilfe des Karatsuba Algorithmus nur 3 Multiplikationen mit Länge $\lfloor \frac{n}{2} \rfloor$ brauchen. Im Vergleich zur Grundschulmethode können wir dann eine Multiplikation einsparen.
 Durch ein konkretes Beispiel wird es klarer: Wir wollen das Produkt von 12345 und 6789 berechnen. Seien a = 12, b = 345 und c = 6, d = 789, nämlich:
 \begin{align*}
 12345 = 12 \cdot 1000 + 345\\
@@ -339,10 +342,10 @@ procedure karatsuba(num1, num2)
     
     return (u * 10 ^ (m2 * 2)) + ((u + w - v) * 10 ^ m2) + w
 \end{lstlisting}
-Zuerst wird es geprüft, ob mindestens eine von beiden Zahlen größer als 10 ist, also ob die Multiplikatoren nur eine Ziffer sind. Wenn ja, ist es doch genug effizient, die beiden Zahlen direkt miteinander zu multiplizieren. Darüber hinaus gilt es als die Abbruchbedingung von der Rekursion. Ansonsten wenden wir den Algorithmus an. Auf der 177. und 177. Zeile wird die maximale Länge der Zahlen berechnet und abgerundet. Danach werden die vorgegebenen Zahlen in die Form $p = 10^{m} \cdot a + b$ umgeformt, also die Ziffernfolgen in der Mitte aufgeteilt. Auf der Zeilen 182 - 184 werden 3 Karatsuba-Funktion rekursiv aufgerufen, die genau 3 Multiplikationen mit Länge $\lfloor \frac{n}{2} \rfloor$ entsprechen. Sobald u, v, w die kleinstmöglichen Einheiten haben, werden sie in die endgültigen Gleichung zurückgegeben und die Zahl mit einer Basis aufgefüllt(im obigen Pseudocode zur Basis 10). Am Ende kriegt man dann das Endergebnis.
+Zuerst wird geprüft, ob mindestens eine von beiden Zahlen größer als 10 ist, also ob die Multiplikatoren nur eine Ziffer sind. Wenn ja, ist es doch genug effizient, die beiden Zahlen direkt miteinander zu multiplizieren. Darüber hinaus ist dies die Abbruchbedingung der Rekursion. Ansonsten wenden wir den Algorithmus an. In der 5. und 6. Zeile wird die maximale Länge der Zahlen berechnet und abgerundet. Danach werden die vorgegebenen Zahlen in die Form $p = 10^{m} \cdot a + b$ umgeformt, also die Ziffernfolgen in der Mitte aufgeteilt. In den Zeilen 11 - 13 werden 3 Karatsuba-Funktion rekursiv aufgerufen, die genau 3 Multiplikationen mit Länge $\lfloor \frac{n}{2} \rfloor$ entsprechen. Sobald u, v, w die kleinstmöglichen Einheiten haben, werden sie in die endgültigen Gleichung zurückgegeben und die Zahl mit einer Basis aufgefüllt(im obigen Pseudocode zur Basis 10). Am Ende kriegt man dann das Endergebnis.
 
 \begin{observation}
-Außer der Multiplikationen sind noch mehrere Additionen $\mathcal{O}(n)$ benötigt.
+Außer den Multiplikationen werden noch $\mathcal{O}(n)$ Additionen benötigt.
 \end{observation}
 
 \begin{theorem}
@@ -352,13 +355,13 @@ Die Laufzeit von Karatsuba Algorithmus ist $\mathcal{O}$($n^{\log_{2}{3}}$).
 \begin{proof}
 \textbf{Initialisierung:} T(1) = 1\\
 T(n) = 3 \cdot T($\frac{n}{2}$) + $\mathcal{O}$(n)\\
-\textbf{Angenommen: } n = $2^{k}$ \Leftrightarrow \ $\log_{2}{n}$ und $f(k)$ = T($2^{k}$)\\
+\textbf{Angenommen: } n = $2^{k}$  \Leftrightarrow \ $\log_{2}{n}$ und $f(k)$ = T($2^{k}$)\\
 \Rightarrow \ $f(k)$ = 3 \cdot \ $f(k - 1)$ + $2^{k}$\\
 \Leftrightarrow \ $\frac{f(k)}{3^{k}}$ = $\frac{f(k - 1)}{3^{k-1}}$ + $(\frac{2}{3})^{k}$\\
-\Rightarrow \ $f(k)$ \leqslant \ $3^{k+1}$ \quad (*) Beweis sehen unten\\\\
-Dann können wir dies in die Definition von f einsetzen: \\
-T(n) = T($2^{k}$) = $f(k)$ = $f(\log_{2}{n})$ \leqslant \ $3^{\log{2}{n}+1}$\\
-\Rightarrow \ T(n) = $\mathcal{O}(3^{\log_{2}{n}})$ = $\mathcal{O}$($2^{\log_{2}{3} \cdot \log_{2}{n}}$) = $\mathcal{O}$($n^{\log_{2}{3}}$)\\
+\Rightarrow \ $f(k)$ \leqslant \ $3^{k+1}$ \quad (*) Beweis siehe unten\\\\
+Dann können wir dies in die Definition von \(f\) einsetzen: \\
+$T(n)$ = T($2^{k}$) = $f(k)$ = $f(\log_{2}{n})$ \leqslant \ $3^{\log{2}{n}+1}$\\
+\Rightarrow \ $T(n)$ = $\mathcal{O}(3^{\log_{2}{n}})$ = $\mathcal{O}$($2^{\log_{2}{3} \cdot \log_{2}{n}}$) = $\mathcal{O}$($n^{\log_{2}{3}}$)\\
 
 (*) $\frac{f(k)}{3^{k}}$ = $\frac{f(k - 1)}{3^{k-1}}$ + $(\frac{2}{3})^{k}$\\
 $\frac{f(k-1)}{3^{k-1}}$ = $\frac{f(k - 2)}{3^{k-2}}$ + $(\frac{2}{3})^{k-1}$\\
@@ -371,7 +374,7 @@ $\frac{f(1)}{3^{1}}$ = $\frac{f(1)}{3^{0}}$ + $(\frac{2}{3})^{1}$\\
 
 Mit der Darstellung von Komplexität ist es nicht so deutlich und intuitiv.\\
 \includegraphics[scale=0.5]{Karatsuba-Complexity.png} \cite{2}\\
-Durch obiges Bild wird veranschaulicht, dass der Karatsbar Algorithmus mit der Laufzeit $\mathcal{O}(n^{\log_{2}{3}})$ viel schneller als der naive Algorithmus mit der Laufzeit $\mathcal{O}(n^{2})$ ist. Schauen wir uns ein konkretes Beispiel dafür an: Wir wollen zwei 1024 stelligen Zahlen miteinander multiplizieren\ (In der Tabelle \cite{1} stehen die benötigten Anzahlen von Multiplikation).\\
+Durch obiges Bild wird veranschaulicht, dass der Karatsuba Algorithmus mit der Laufzeit $\mathcal{O}(n^{\log_{2}{3}})$ viel schneller als der naive Algorithmus mit der Laufzeit $\mathcal{O}(n^{2})$ ist. Schauen wir uns ein konkretes Beispiel dafür an: Wir wollen zwei 1024 stelligen Zahlen miteinander multiplizieren\ (In der Tabelle \cite{1} stehen die benötigten Anzahlen von Multiplikation).\\
 
 
 \setlength{\tabcolsep}{7mm}
@@ -382,7 +385,7 @@ Durch obiges Bild wird veranschaulicht, dass der Karatsbar Algorithmus mit der L
 	1024=$2^{10}$ & $3^{10}$ = 59049 & $(2^{10})^{2} = 1048675$\\
 	\hline
 \end{tabular}\\ 
-Aus dem Diagramm kann man leicht davon sehen, dass der Karatsuba-Algorithmus viel effizienter ist, da die Anzahl der benötigten Multiplikation nur ungefähr 5\% von der Grundschulmethode ist.
+Aus der Tabelle kann man leicht davon sehen, dass der Karatsuba-Algorithmus viel effizienter ist, da die Anzahl der benötigten Multiplikation bei 1024 Stellen nur ungefähr 5\% von der Grundschulmethode ist.
 
 
 %Zwischen den theoretische Teilen, sollte sich immer Text befinden, der die Teile verbindet und die Intuition für die einzelnen %Bestandteile vermittelt.
@@ -393,6 +396,7 @@ Aus dem Diagramm kann man leicht davon sehen, dass der Karatsuba-Algorithmus vie
 %\end{lemma}
 
 \section{Andere Methoden}
+Es gibt neuere und schnellere Methoden wie: 
 \begin{itemize}
 	\item[1)]
 	\textbf{Schönhage-Strassen-Algorithmus} in $\mathcal{O}(n \cdot \log{n} \cdot \log{\log{n}})$ (FNTT)\cite{3}
@@ -403,7 +407,7 @@ Die obigen Methoden werden  hier leider nicht berücksichtigt, nur als Hinweise 
 
 
 \section{Zusammenfassung}
-In der Ausarbeitung wird Karatsuba Algorithmus vorgestellt, der Multiplikation zweier Zahlen mit Länge n auf kleinere Unterprobleme zurückführt, was uns ermöglicht, dass nur 3 anstatt 4 Multiplikationen zur Berechnung benötigt werden. Das verwendete Prinzip ist \textbf{Divide and Conquer}(auf deutsch Teile und Herrsche).  Wiederhole solange, bis wir direkt das Produkt berechnen können, also mit Länge = 1. 
+In der Ausarbeitung wurde der Karatsuba Algorithmus vorgestellt, der Multiplikation zweier Zahlen mit Länge \(n\) auf kleinere Unterprobleme zurückführt, was uns ermöglicht, dass nur 3 anstatt 4 Multiplikationen zur Berechnung benötigt werden. Das verwendete Prinzip ist \textbf{Divide and Conquer}(auf deutsch Teile und Herrsche).  Wiederhole solange, bis wir direkt das Produkt berechnen können, also mit Länge = 1. 
 
 \begin{thebibliography}{3}
 \bibitem{ref1} $https://en.wikipedia.org/wiki/Karatsuba\_algorithm$
